@@ -41,6 +41,7 @@ struct WriteView: View {
                 .frame(width: 36, height: 5)
                 .frame(maxWidth: .infinity)
                 .padding(.top, 14)
+                .accessibilityHidden(true)
 
             Spacer().frame(height: 40)
 
@@ -50,6 +51,7 @@ struct WriteView: View {
                 .foregroundStyle(.secondary)
                 .lineSpacing(4)
                 .padding(.horizontal, 28)
+                .accessibilityLabel(prompt)
 
             Spacer().frame(height: 28)
 
@@ -62,6 +64,7 @@ struct WriteView: View {
                         .padding(.horizontal, 28)
                         .padding(.top, 8)
                         .allowsHitTesting(false)
+                        .accessibilityHidden(true)
                         .transition(.opacity)
                         .animation(.easeInOut(duration: 0.2), value: text.isEmpty)
                 }
@@ -75,6 +78,8 @@ struct WriteView: View {
                     .padding(.horizontal, 22)
                     .focused($focused)
                     .frame(minHeight: 130, maxHeight: 260)
+                    .accessibilityLabel("Your reflection")
+                    .accessibilityHint("Write a small moment when you acted like who you’re becoming")
             }
 
             Spacer()
@@ -100,6 +105,8 @@ struct WriteView: View {
                     .animation(.easeInOut(duration: 0.18), value: canPlace)
             }
             .disabled(!canPlace)
+            .accessibilityLabel("Place it")
+            .accessibilityHint("Drops your note into the jar")
 
             Spacer().frame(height: 12)
         }

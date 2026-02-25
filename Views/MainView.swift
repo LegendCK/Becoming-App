@@ -60,6 +60,7 @@ struct MainView: View {
                         Spacer().frame(height: 108)
                     }
                     .allowsHitTesting(false)
+                    .accessibilityHidden(true)  // announced via UIAccessibility.post below
                 }
 
                 PaperDropOverlay(isDropping: $isDropping, jarFrame: jarGlobalFrame) {
@@ -85,6 +86,8 @@ struct MainView: View {
                             .frame(width: 44, height: 44)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel("Reflections")
+                    .accessibilityHint("Opens your saved notes")
                 }
             }
             .toolbarBackground(.hidden, for: .navigationBar)
@@ -125,6 +128,7 @@ struct MainView: View {
                 .font(.system(size: 12, weight: .medium))
                 .tracking(2.2)   // wider whisper spacing
                 .foregroundStyle(Color(.label).opacity(0.38))
+                .accessibilityHidden(true)   // decorative — jar name below is the real label
 
             Text(store.activeJar?.name ?? "")
                 .font(.system(size: 30, weight: .medium))
@@ -133,6 +137,7 @@ struct MainView: View {
                 .lineSpacing(4)        // ~1.13 line height at 30pt
                 .lineLimit(2)
                 .animation(.easeOut(duration: 0.3), value: store.state.activeJarIndex)
+                .accessibilityAddTraits(.isHeader)
         }
         .frame(maxWidth: .infinity)
     }
@@ -158,6 +163,14 @@ struct MainView: View {
                     options: [.allowsTransparency]
                 )
                 .background(.clear)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel({
+                    let count = store.activeJar?.papers.count ?? 0
+                    let name  = store.activeJar?.name ?? "jar"
+                    return count == 0
+                        ? "\(name) jar, empty"
+                        : "\(name) jar, containing \(count) \(count == 1 ? "paper" : "papers")."
+                }())
                 .onAppear {
                     DispatchQueue.main.async {
                         jarGlobalFrame = geo.frame(in: .global)
@@ -203,6 +216,8 @@ struct MainView: View {
                 )
         }
         .buttonStyle(.plain)
+        .accessibilityLabel("Add a note")
+        .accessibilityHint("Opens a writing space to record a moment")
     }
 
     // MARK: - Scene
@@ -245,6 +260,7 @@ struct MainView: View {
 
     private func showNotedFeedback() {
         withAnimation(.easeOut(duration: 0.3)) { showNoted = true }
+        UIAccessibility.post(notification: .announcement, argument: "Noted")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
             withAnimation(.easeOut(duration: 0.5)) { showNoted = false }
         }
@@ -308,6 +324,8 @@ struct JarSwitcherButton: View {
                 .foregroundStyle(Color(.label).opacity(0.50))
                 .frame(minWidth: 44, minHeight: 44)
         }
+        .accessibilityLabel("Switch jar")
+        .accessibilityHint("Shows your jars and lets you create or remove one")
         .sheet(isPresented: $showNewJarSheet) { newJarSheet }
         .confirmationDialog(
             "Release this jar?",
@@ -333,6 +351,7 @@ struct JarSwitcherButton: View {
                 .frame(width: 36, height: 5)
                 .frame(maxWidth: .infinity)
                 .padding(.top, 14)
+                .accessibilityHidden(true)
 
             Spacer().frame(height: 40)
 
@@ -340,6 +359,7 @@ struct JarSwitcherButton: View {
                 .font(.system(size: 17, weight: .light).italic())
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 28)
+                .accessibilityHidden(true)
 
             Spacer().frame(height: 20)
 
@@ -349,6 +369,8 @@ struct JarSwitcherButton: View {
                 .focused($nameFocused)
                 .submitLabel(.done)
                 .onSubmit { createJar() }
+                .accessibilityLabel("New jar name")
+                .accessibilityHint("Describe who you are becoming, then tap begin")
 
             Rectangle()
                 .fill(Color.secondary.opacity(0.12))
@@ -369,6 +391,8 @@ struct JarSwitcherButton: View {
                     .padding(.vertical, 16)
             }
             .disabled(newJarName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            .accessibilityLabel("Begin this jar")
+            .accessibilityHint("Creates your new jar")
 
             Spacer().frame(height: 12)
         }

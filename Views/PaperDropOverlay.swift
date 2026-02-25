@@ -147,6 +147,7 @@ struct PaperDropOverlay: View {
                             .opacity(props.opacity)
                             .position(props.position)
                             .allowsHitTesting(false)
+                            .accessibilityHidden(true)  // purely decorative animation
                     }
                 }
             }
@@ -197,6 +198,14 @@ struct PaperDropOverlay: View {
 
     private func begin() {
         guard phase == .idle else { return }
+        // Skip visual arc animation when Reduce Motion is on — physics still fires.
+        if UIAccessibility.isReduceMotionEnabled {
+            onReachJar()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                isDropping = false
+            }
+            return
+        }
 
         let screen = UIScreen.main.bounds
         let fromX  = screen.midX + CGFloat.random(in: -8...8)

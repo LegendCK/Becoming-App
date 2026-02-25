@@ -44,9 +44,10 @@ struct OnboardingView: View {
                 progressDots
                     .padding(.top, topSafeArea + 20)
                     .padding(.bottom, 0)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Step \(page + 1) of 3")
 
-                // ── Page content ──
-                ZStack {
+                Group {
                     switch page {
                     case 0: pageOne
                     case 1: pageTwo
@@ -95,6 +96,7 @@ struct OnboardingView: View {
                 .frame(width: 190, height: 210)
                 .opacity(el1Opacity)
                 .offset(y: el1Offset)
+                .accessibilityHidden(true)
 
             Spacer().frame(height: 44)
 
@@ -138,6 +140,7 @@ struct OnboardingView: View {
                 .frame(width: 190, height: 210)
                 .opacity(el1Opacity)
                 .offset(y: el1Offset)
+                .accessibilityHidden(true)
 
             Spacer().frame(height: 44)
 
@@ -153,7 +156,7 @@ struct OnboardingView: View {
             Spacer().frame(height: 14)
 
             // Body
-            Text("When you act like the person\nyou're becoming - write it down.\nPlace it inside.")
+            Text("When you act like the person\nyou're becoming — write it down.\nPlace it inside.")
                 .font(.system(size: 16, weight: .light))
                 .foregroundStyle(Color(.label).opacity(0.44))
                 .multilineTextAlignment(.center)
@@ -184,6 +187,7 @@ struct OnboardingView: View {
                     .tracking(4.5)
                     .foregroundStyle(Color(.label).opacity(0.35))
                     .opacity(el1Opacity)
+                    .accessibilityHidden(true)
 
                 Spacer().frame(height: 20)
 
@@ -215,6 +219,8 @@ struct OnboardingView: View {
                         .submitLabel(.done)
                         .autocorrectionDisabled()
                         .onSubmit { completeOnboarding() }
+                        .accessibilityLabel("Jar name")
+                        .accessibilityHint("Describe who you are becoming, then tap begin")
                         .onAppear {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 nameFieldFocused = true
@@ -263,6 +269,7 @@ struct OnboardingView: View {
                 )
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(.isButton)
     }
 
     private var beginButton: some View {
@@ -294,6 +301,8 @@ struct OnboardingView: View {
         }
         .disabled(!isNameValid)
         .buttonStyle(.plain)
+        .accessibilityLabel("Begin")
+        .accessibilityHint("Creates your jar and starts the app")
     }
 
     // MARK: - Navigation

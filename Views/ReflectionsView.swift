@@ -72,6 +72,7 @@ struct ReflectionsView: View {
                 .font(.system(size: 13, weight: .light).italic())
                 .foregroundStyle(Color.secondary.opacity(0.4))
         }
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -123,6 +124,13 @@ struct PaperCardView: View {
         .onTapGesture {
             withAnimation(.easeInOut(duration: 0.28)) { expanded.toggle() }
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel({
+            let dateStr = paper.date.formatted(date: .abbreviated, time: .omitted)
+            return "\(dateStr). \(paper.text)"
+        }())
+        .accessibilityHint(expanded ? "Tap to collapse" : "Tap to expand")
+        .accessibilityAddTraits(.isButton)
         // swipeActions works on List rows — keep it here, not on background
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button {
@@ -131,6 +139,8 @@ struct PaperCardView: View {
                 Label("Release", systemImage: "leaf")
             }
             .tint(Color(red: 0.50, green: 0.40, blue: 0.30))
+            .accessibilityLabel("Release paper")
+            .accessibilityHint("Permanently removes this reflection")
         }
         .confirmationDialog(
             "Release this paper?",

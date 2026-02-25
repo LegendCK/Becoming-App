@@ -34,6 +34,7 @@ struct SplashView: View {
                     .frame(width: 210, height: 230)
                     .opacity(jarOpacity)
                     .scaleEffect(jarScale)
+                    .accessibilityHidden(true)
 
                 Spacer().frame(height: 40)
 
@@ -50,6 +51,8 @@ struct SplashView: View {
                 }
                 .opacity(wordmarkOpacity)
                 .offset(y: wordmarkOffset)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Becoming. A jar for who you're becoming.")
 
                 Spacer()
                 Spacer().frame(height: 60) // visual weight toward top-center
@@ -59,6 +62,9 @@ struct SplashView: View {
     }
 
     private func animate() {
+        // Announce app name to VoiceOver users
+        UIAccessibility.post(notification: .screenChanged, argument: "Becoming")
+
         // Jar fades + scales in
         withAnimation(.easeOut(duration: 0.80).delay(0.30)) {
             jarOpacity = 1
