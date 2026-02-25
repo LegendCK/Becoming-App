@@ -11,9 +11,9 @@ Built with SwiftUI and SpriteKit for Apple Swift Student Challenge 2025.
 ## Screenshots
 
 <p float="left">
-  <img src="Screenshots/main.png" width="30%" />
-  <img src="Screenshots/write.png" width="30%" />
-  <img src="Screenshots/reflections.png" width="30%" />
+  <img src="Screenshots/MainView.png" width="30%" />
+  <img src="Screenshots/WriteView.png" width="30%" />
+  <img src="Screenshots/ReflectionsView.png" width="30%" />
 </p>
 
 ---
