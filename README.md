@@ -2,9 +2,9 @@
 
 > A jar for who you're becoming.
 
-Becoming is a quiet journaling app built around a simple idea — identity change is incremental. Instead of a blank page or a daily habit, you capture small moments when you acted like the person you're growing into. Each note is crumpled and dropped into a jar. Over time, the jar fills with evidence that you're already becoming who you want to be.
+Becoming is a quiet journaling app built around a simple idea - identity change is incremental. Instead of a blank page or a daily habit, you capture small moments when you acted like the person you're growing into. Each note is crumpled and dropped into a jar. Over time, the jar fills with evidence that you're already becoming who you want to be.
 
-Built with SwiftUI and SpriteKit for Apple Swift Student Challenge 2025.
+Built with SwiftUI and SpriteKit for Apple Swift Student Challenge 2026.
 
 ---
 
